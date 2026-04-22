@@ -11,10 +11,23 @@ By eliminating the rigid 30¢ floor of traditional Web2 gateways like Stripe, Pu
 
 ## ⚙️ Core Architecture
 
-The system utilizes an autonomous 3-agent swarm operating across a Node.js backend and a Next.js `Turbopack` frontend:
-1. **Activity Agent** (Frontend session layer): Operates a secure crypto-clock running a `setInterval(30_000)`. It transmits EIP-712 hashed micrologs directly down a Socket.io stream.
-2. **Budget Guard Agent** (Middleware logic): A strict AI-constraint checker that validates an employer's `daily_cap` and isolates "idle worker" timeouts to instantly freeze financial streams.
-3. **Payment Engine** (Circle layer): Utilizes `@circle-fin/developer-controlled-wallets` to dispatch synchronous, fully deterministic `$0.009` USDC payments from an Employer Master Wallet to independent, programmatically-generated User Wallets.
+Pulse operates as an autonomous multi-agent swarm, leveraging high-frequency telemetry to enable real-time payroll.
+
+### 🧠 The Swarm
+- **Activity Agent**: Resides in the worker's browser. It captures cryptographic "proof of work" every 30 seconds, signing EIP-712 sessions that are streamed via WebSockets.
+- **Budget Guard Agent**: Monitors employer liquidity and daily constraints. It acts as a real-time circuit breaker, ensuring no payment is dispatched if budget caps are breached or if worker idleness is detected.
+- **Payment Engine**: Orchestrates the Circle Arc Testnet. It natively dispatches USDC nanopayments ($0.009) directly into worker wallets with sub-cent precision and zero gas overhead.
+
+---
+
+## 🚀 Technology Stack
+
+- **Frontend**: Next.js 15 (Turbopack), Tailwind CSS, Framer Motion, Socket.io-client
+- **Backend**: Node.js, Express, Socket.io, Drizzle ORM
+- **Database**: SQLite (Local persistence for agent telemetry)
+- **Blockchain**: Circle Developer & Smart Contract Platform (Arc Testnet)
+- **Payments**: Circle Programmable Wallets + Nanopayments API
+- **Security**: EIP-712 Session Signing, JWT Authentication
 
 ---
 

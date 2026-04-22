@@ -18,8 +18,12 @@ build/
 # Database
 *.db
 *.db-journal
+*.db-shm
+*.db-wal
 pulse.db
 pulse.db-journal
+pulse.db-shm
+pulse.db-wal
 
 # Logs
 npm-debug.log*
