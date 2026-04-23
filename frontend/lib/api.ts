@@ -42,9 +42,46 @@ export const api = {
 
   // Demo
   getDemoProof: () => request('/api/demo/proof'),
+  getDemoMetrics: () => request('/api/demo/metrics'),
   getCsvUrl: () => `${API}/api/demo/csv`,
+  getScenarios: () => request('/api/demo/scenarios'),
+
+  // x402
+  getPaymentStream: () => request('/api/x402/payment-stream'),
+  initStream: (body: any) => request('/api/x402/init', { method: 'POST', body: JSON.stringify(body) }),
+  getStreamStatus: (streamId: string) => request(`/api/x402/stream/${streamId}`),
+  pauseStream: (streamId: string) => request(`/api/x402/stream/${streamId}/pause`, { method: 'POST' }),
+  resumeStream: (streamId: string) => request(`/api/x402/stream/${streamId}/resume`, { method: 'POST' }),
+  getPaymentRequirements: (path: string) => request(`/api/x402/requirements${path}`),
+  getGatewayBalance: (address: string) => request(`/api/gateway/balance/${address}`),
+
+  // Onboarding
+  getOnboardingStatus: (token: string) => request('/api/onboarding/status', {}, token),
+  getOnboardingNextStep: (token: string) => request('/api/onboarding/next-step', {}, token),
+  completeOnboardingStep: (step: string, token: string) =>
+    request('/api/onboarding/complete-step', { method: 'POST', body: JSON.stringify({ step }) }, token),
+  getOnboardingGuide: (role: string) => request(`/api/onboarding/guide?role=${role}`),
+
+  // Webhooks
+  createWebhook: (body: any, token: string) =>
+    request('/api/webhooks', { method: 'POST', body: JSON.stringify(body) }, token),
+  listWebhooks: (token: string) => request('/api/webhooks', {}, token),
+  getWebhook: (id: string, token: string) => request(`/api/webhooks/${id}`, {}, token),
+  deleteWebhook: (id: string, token: string) =>
+    request(`/api/webhooks/${id}`, { method: 'DELETE' }, token),
+  testWebhook: (id: string, token: string) =>
+    request(`/api/webhooks/${id}/test`, { method: 'POST' }, token),
+  getWebhookEvents: (id: string, token: string) =>
+    request(`/api/webhooks/${id}/events`, {}, token),
+  updateWebhook: (id: string, active: boolean, token: string) =>
+    request(`/api/webhooks/${id}`, { method: 'PATCH', body: JSON.stringify({ active }) }, token),
 
   // Ping — fires payment
   sendPing: (proof: Record<string, string>, signature: string, token: string) =>
     request('/api/ping', { method: 'POST', body: JSON.stringify({ proof, signature }) }, token),
+
+  // Agents
+  getAgentMetrics: (token: string) => request('/api/agents/metrics', {}, token),
+  getAgentLogs: (limit?: number, agent?: string, level?: string) => 
+    request(`/api/agents/logs?limit=${limit ?? 50}${agent ? `&agent=${agent}` : ''}${level ? `&level=${level}` : ''}`),
 }

@@ -49,3 +49,13 @@ export const workerStates = sqliteTable('worker_states', {
   dailyCap: real('daily_cap').default(50),
   hourlyRate: real('hourly_rate').default(18),
 })
+
+export const invites = sqliteTable('invites', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  code: text('code').notNull().unique(),
+  employerId: text('employer_id').notNull(),
+  maxUses: integer('max_uses').default(1),
+  usedCount: integer('used_count').default(0),
+  expiresAt: text('expires_at').notNull(),
+  createdAt: text('created_at').default(sql`(datetime('now'))`),
+})

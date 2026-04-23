@@ -35,6 +35,11 @@ scripts/*.log
 .DS_Store
 *.pem
 
+# Smart Contracts
+contracts/cache/
+contracts/artifacts/
+contracts/deployment.json
+
 # User specific IGNORED per request
 *.md
 !README.md

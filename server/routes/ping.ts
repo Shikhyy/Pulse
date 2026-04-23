@@ -4,7 +4,7 @@ import db from '../db'
 import { users, sessions, employers } from '../db/schema'
 import { eq, isNull, and, sql } from 'drizzle-orm'
 import { budgetGuard } from '../agents/budgetGuard'
-import { dispatchNanopayment, getSessionTotal, getWorkerTodayTotal } from '../agents/paymentEngine'
+import { paymentEngine, getSessionTotal, getWorkerTodayTotal } from '../agents/paymentEngine'
 import { getIO } from '../socket'
 
 const router = Router()
@@ -80,7 +80,7 @@ router.post('/ping', async (req: Request, res: Response) => {
     }
 
     // 4. Budget check
-    const budget = await budgetGuard(session.employerId, workerId, 0.009)
+    const budget = await budgetGuard.checkPayment(session.employerId, workerId, 0.009)
     if (!budget.allow) {
       return res.status(402).json({ error: budget.reason })
     }
@@ -100,8 +100,8 @@ router.post('/ping', async (req: Request, res: Response) => {
     const pingSeq = (pingSequences.get(sessionId) ?? 0) + 1
     pingSequences.set(sessionId, pingSeq)
 
-    // 7. Dispatch Nanopayment
-    const payment = await dispatchNanopayment({
+    // 7. Dispatch Nanopayment using the Payment Engine
+    const payment = await paymentEngine.dispatchPayment({
       employerWalletId: employer.circleWalletId ?? '',
       workerAddress: worker.walletAddress ?? '',
       sessionId,

@@ -11,6 +11,14 @@ import pingRouter from './routes/ping'
 import sessionsRouter from './routes/sessions'
 import workersRouter from './routes/workers'
 import demoRouter from './routes/demo'
+import x402Router from './routes/x402'
+import onboardingRouter from './routes/onboarding'
+import webhooksRouter from './routes/webhooks'
+import invitesRouter from './routes/invites'
+import agentsRouter from './routes/agents'
+
+// Middleware
+import { notFoundHandler, errorHandler } from './middleware/errorHandler'
 
 const app = express()
 const httpServer = createServer(app)
@@ -33,11 +41,20 @@ app.get('/health', (_req, res) => {
 // Public routes (no auth required)
 app.use('/api', authRouter)
 app.use('/api', demoRouter)
+app.use('/api', x402Router)
 
 // Protected routes (require JWT)
 app.use('/api', authMiddleware as any, pingRouter)
 app.use('/api', authMiddleware as any, sessionsRouter)
 app.use('/api', authMiddleware as any, workersRouter)
+app.use('/api', authMiddleware as any, onboardingRouter)
+app.use('/api', authMiddleware as any, webhooksRouter)
+app.use('/api', authMiddleware as any, invitesRouter)
+app.use('/api', authMiddleware as any, agentsRouter)
+
+// Error handling
+app.use(notFoundHandler)
+app.use(errorHandler)
 
 const PORT = Number(process.env.PORT ?? 3001)
 

@@ -2,13 +2,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { api } from '@/lib/api'
-
-interface ProofData {
-  arcTransactionCount: number
-  totalEarnedVolume: number
-  gasEstimate: number
-  recentTransactions: any[]
-}
+import type { ProofData } from '@/lib/types'
 
 export default function DemoProofPage() {
   const [data, setData] = useState<ProofData | null>(null)
@@ -23,6 +17,8 @@ export default function DemoProofPage() {
       console.error(e)
     }
   }
+
+  const minStripeCost = data ? parseFloat(data.marginComparison.stripe.perPayment) : 0.30
 
   useEffect(() => {
     fetchData()
@@ -51,11 +47,10 @@ export default function DemoProofPage() {
     )
   }
 
-  const txCount = data.arcTransactionCount
-  const minStripeCost = txCount * 0.30
+  const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001'
 
   const handleExport = () => {
-    window.open('http://localhost:3001/api/demo/csv', '_blank')
+    window.open(`${API}/api/demo/csv`, '_blank')
   }
 
   return (
@@ -93,7 +88,7 @@ export default function DemoProofPage() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 40 }}>
           <div className="card page-enter" style={{ animationDelay: '0.1s' }}>
             <div className="card-title">Arc Testnet Transactions</div>
-            <div className="card-val" style={{ fontSize: 42 }}>{txCount}</div>
+            <div className="card-val" style={{ fontSize: 42 }}>{data.arcTransactionCount}</div>
             <div className="card-sub">Cryptographically verified nanostreams</div>
           </div>
           <div className="card page-enter" style={{ animationDelay: '0.2s', background: 'var(--teal-dim)', borderColor: 'var(--border2)', display: 'flex', gap: 24 }}>
@@ -146,10 +141,68 @@ export default function DemoProofPage() {
 
         {/* Products Integration Checklist */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 40, animationDelay: '0.4s' }} className="page-enter">
-          <Checklist title="Developer API" desc="Native Node.js hooks orchestrating on-chain routing." />
-          <Checklist title="Developer-Controlled Wallets" desc="Frictionless end-user setup; we pay all gas natively." />
-          <Checklist title="Smart Contract Platform" desc="Transactions settle natively via Circle endpoints." />
-          <Checklist title="USDC Native" desc="Every cent tracked internally pegs exactly to Circle USDC." />
+          <Checklist title="Circle Nanopayments" desc="Sub-cent USDC transfers at $0.009 per inference cycle." />
+          <Checklist title="Developer-Controlled Wallets" desc="Frictionless end-user setup; seedless sub-wallets via API." />
+          <Checklist title="x402 Payment Standard" desc="Web-native payment protocol for autonomous agents." />
+          <Checklist title="Smart Contract (Solidity)" desc="On-chain session tracking, budget enforcement, and pause controls." />
+          <Checklist title="Vyper Contract" desc="ERC-8004 compatible agent identity and trust layer." />
+          <Checklist title="Arc Testnet" desc="All transactions settle with sub-second finality on USDC-native L1." />
+        </div>
+
+        {/* Smart Contracts Section */}
+        <div className="card page-enter" style={{ marginBottom: 40, animationDelay: '0.45s' }}>
+          <div className="card-title" style={{ marginBottom: 16 }}>Deployed Smart Contracts</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+            <div style={{ padding: 16, background: 'var(--bg3)', borderRadius: 12 }}>
+              <div style={{ fontSize: 12, color: 'var(--text3)', marginBottom: 4 }}>Solidity (ERC-20 Compatible)</div>
+              <code style={{ fontSize: 13, color: 'var(--teal)', wordBreak: 'break-all' }}>PulseComputeNetwork.sol</code>
+              <div style={{ fontSize: 12, color: 'var(--text2)', marginTop: 8 }}>
+                Session management, budget caps, worker pause/resume
+              </div>
+            </div>
+            <div style={{ padding: 16, background: 'var(--bg3)', borderRadius: 12 }}>
+              <div style={{ fontSize: 12, color: 'var(--text3)', marginBottom: 4 }}>Vyper (ERC-8004 Ready)</div>
+              <code style={{ fontSize: 13, color: 'var(--teal)', wordBreak: 'break-all' }}>PulseComputeNetwork.vy</code>
+              <div style={{ fontSize: 12, color: 'var(--text2)', marginTop: 8 }}>
+                Agent identity, trust layer, nanopayment primitives
+              </div>
+            </div>
+          </div>
+          <div style={{ marginTop: 16, padding: 12, background: 'var(--surface)', borderRadius: 8, border: '1px solid var(--border)' }}>
+            <div style={{ fontSize: 12, color: 'var(--text3)' }}>Network</div>
+            <div style={{ fontSize: 14, color: 'var(--text)', marginTop: 4 }}>Arc Testnet (Chain ID: 5042002)</div>
+            <div style={{ fontSize: 13, fontFamily: 'var(--mono)', color: 'var(--teal)', marginTop: 8 }}>
+              npx hardhat run scripts/deploy.js --network arcTestnet
+            </div>
+            <div style={{ marginTop: 12, fontSize: 12, color: 'var(--text3)' }}>RPC: https://rpc.testnet.arc.network</div>
+            <div style={{ fontSize: 12, color: 'var(--text3)' }}>Explorer: https://testnet.arcscan.app</div>
+          </div>
+        </div>
+
+        {/* AI Integration Section */}
+        <div className="card page-enter" style={{ marginBottom: 40, animationDelay: '0.48s' }}>
+          <div className="card-title" style={{ marginBottom: 16 }}>AI Integration (Gemini)</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16 }}>
+            <div style={{ padding: 16, background: 'var(--bg3)', borderRadius: 12, textAlign: 'center' }}>
+              <div style={{ fontSize: 28, marginBottom: 8 }}>⚡</div>
+              <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--text)', marginBottom: 4 }}>Dynamic Pricing</div>
+              <div style={{ fontSize: 12, color: 'var(--text3)' }}>AI adjusts rate based on work complexity</div>
+            </div>
+            <div style={{ padding: 16, background: 'var(--bg3)', borderRadius: 12, textAlign: 'center' }}>
+              <div style={{ fontSize: 28, marginBottom: 8 }}>🎯</div>
+              <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--text)', marginBottom: 4 }}>Quality Validation</div>
+              <div style={{ fontSize: 12, color: 'var(--text3)' }}>Gemini evaluates worker output quality</div>
+            </div>
+            <div style={{ padding: 16, background: 'var(--bg3)', borderRadius: 12, textAlign: 'center' }}>
+              <div style={{ fontSize: 28, marginBottom: 8 }}>📋</div>
+              <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--text)', marginBottom: 4 }}>Task Generation</div>
+              <div style={{ fontSize: 12, color: 'var(--text3)' }}>AI assigns appropriate compute tasks</div>
+            </div>
+          </div>
+          <div style={{ marginTop: 16, padding: 12, background: 'var(--surface)', borderRadius: 8, border: '1px solid var(--border)' }}>
+            <div style={{ fontSize: 12, color: 'var(--text3)' }}>Model</div>
+            <div style={{ fontSize: 14, color: 'var(--text)', marginTop: 4 }}>gemini-2.0-flash (via Google AI Studio)</div>
+          </div>
         </div>
 
         {/* Transactions Table */}
@@ -172,12 +225,12 @@ export default function DemoProofPage() {
             ) : (
                <table style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse', fontFamily: 'var(--mono)', fontSize: 13 }}>
                   <tbody>
-                    {data.recentTransactions.map((tx, i) => (
+                    {data.recentTransactions?.map((tx, i) => (
                       <tr key={tx.id} style={{ borderBottom: '1px solid var(--border)', background: i === 0 ? 'var(--bg3)' : 'transparent' }}>
-                        <td style={{ padding: '12px 0 12px 16px', color: 'var(--text3)' }}>{tx.recordedAt ? new Date(tx.recordedAt).toLocaleTimeString() : '...'}</td>
-                        <td style={{ padding: 12, color: 'var(--teal)' }}>{tx.arcTxHash ? tx.arcTxHash.slice(0, 10)+'...' : 'Pending'}</td>
-                        <td style={{ padding: 12, color: 'var(--text2)' }}>{tx.employerId?.slice(0,8)}</td>
-                        <td style={{ padding: 12, color: 'var(--text2)' }}>{tx.workerId?.slice(0,8)}</td>
+                        <td style={{ padding: '12px 0 12px 16px', color: 'var(--text3)' }}>{tx.recorded_at ? new Date(tx.recorded_at).toLocaleTimeString() : '...'}</td>
+                        <td style={{ padding: 12, color: 'var(--teal)' }}>{tx.arc_tx_hash ? tx.arc_tx_hash.slice(0, 10)+'...' : 'Pending'}</td>
+                        <td style={{ padding: 12, color: 'var(--text2)' }}>{tx.employer_id?.slice(0,8)}</td>
+                        <td style={{ padding: 12, color: 'var(--text2)' }}>{tx.worker_name || tx.worker_id?.slice(0,8)}</td>
                         <td style={{ padding: 12, color: 'var(--text)' }}>${Number(tx.amount).toFixed(3)}</td>
                         <td style={{ padding: '12px 16px 12px 0', textAlign: 'right' }}>
                           <span className="badge badge-active">Settled</span>

@@ -1,0 +1,20 @@
+{
+  "name": "pulse-contracts",
+  "version": "1.0.0",
+  "description": "Pulse Compute Network Smart Contracts",
+  "main": "index.js",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:arc-testnet": "hardhat run scripts/deploy.ts --network arcTestnet",
+    "deploy:local": "hardhat run scripts/deploy.ts --network localhost"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.9.5",
+    "dotenv": "^16.3.1",
+    "hardhat": "^2.19.4"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0"
+  }
+}
