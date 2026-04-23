@@ -33,7 +33,7 @@ export default function EmployerDashboardPage() {
 
   useEffect(() => {
     if (!user || !token) {
-      router.push('/employer/login')
+      router.push('/orchestrator/login')
       return
     }
 
@@ -62,8 +62,6 @@ export default function EmployerDashboardPage() {
     logout()
     router.push('/')
   }
-
-  const formatTokens = (val: number) => val.toFixed(2)
 
   const formatTokens = (val: number) => val.toFixed(2)
 
@@ -107,8 +105,8 @@ export default function EmployerDashboardPage() {
         <header className="dash-topbar">
           <h2 style={{ fontFamily: 'var(--serif)', margin: 0, fontSize: 22, color: 'var(--text)' }}>
             {view === 'overview' ? 'Command Center' : 
-             view === 'team' ? 'Fleet Operations' : 
-             view === 'feed' ? 'Arc Payment Feed' : 'Budget Guard'}
+             view === 'team' ? 'Compute Nodes' : 
+             view === 'feed' ? 'Arc Inference Feed' : 'Budget Guard'}
           </h2>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <span style={{ fontFamily: 'var(--mono)', fontSize: 13, color: 'var(--text3)' }}>{companyName}</span>
@@ -126,9 +124,9 @@ export default function EmployerDashboardPage() {
                   <div className="card-sub">{Math.floor(animPayments)} total nanostreams</div>
                 </div>
                 <div className="card">
-                  <div className="card-title">Active Workers</div>
+                  <div className="card-title">Active Compute Nodes</div>
                   <div className="card-val">{Math.floor(animActiveWorkers)} <span style={{ color: 'var(--text3)' }}>/ {workers.length}</span></div>
-                  <div className="card-sub">Currently earning on-chain</div>
+                  <div className="card-sub">Currently executing on-chain</div>
                 </div>
                 <div className="card">
                   <div className="card-title">Total Payments</div>
@@ -159,8 +157,8 @@ export default function EmployerDashboardPage() {
           {view === 'team' && (
             <div className="card page-enter">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-                <div className="card-title" style={{ margin: 0 }}>Registered Workers ({workers.length})</div>
-                <span className="badge badge-idle">Invite code: EMP-2026</span>
+                <div className="card-title" style={{ margin: 0 }}>Registered Compute Nodes ({workers.length})</div>
+                <span className="badge badge-idle">Invite code: ORC-2026</span>
               </div>
               
               <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -175,7 +173,7 @@ export default function EmployerDashboardPage() {
                 ))}
                 {workers.length === 0 && (
                   <div style={{ padding: 40, textAlign: 'center', color: 'var(--text3)', fontFamily: 'var(--mono)', fontSize: 13 }}>
-                    No workers registered to your company.
+                    No compute nodes registered to your orchestrator.
                   </div>
                 )}
               </div>

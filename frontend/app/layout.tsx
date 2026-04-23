@@ -2,10 +2,10 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Pulse — Real-Time Freelancer Payroll',
+  title: 'Pulse — Agentic Compute Network',
   description:
-    'Pay your team every 30 seconds. No invoices. No waiting. Powered by Circle Nanopayments on Arc Testnet.',
-  keywords: 'freelancer payroll, USDC, nanopayments, Circle, Arc testnet, real-time payments',
+    'Atomic economy for AI agents. Pay per inference. Powered by Circle Nanopayments on Arc Testnet.',
+  keywords: 'agentic compute, AI agents, USDC, nanopayments, Circle, Arc testnet, pay per inference',
 }
 
 export default function RootLayout({

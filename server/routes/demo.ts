@@ -90,7 +90,7 @@ router.get('/demo/proof', async (req: Request, res: Response) => {
         ratePerSecond: '$0.0003',
         ratePerHour: '$1.08',
         ratePerDay_8h: '$8.64',
-        workersInDemo: 5,
+        nodesInDemo: 5,
         paymentsIn10Min: 100,
         paymentsIn1Hr: 600,
         stripeMinCharge: '$0.50',

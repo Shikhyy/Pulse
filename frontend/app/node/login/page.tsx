@@ -21,7 +21,7 @@ export default function WorkerLoginPage() {
       const data: any = await api.login(form)
       if (data.user.role !== 'worker') throw new Error('Not a worker account')
       setUser(data.user, data.token)
-      router.push('/worker')
+      router.push('/node')
     } catch (err: any) {
       setError(err.message ?? 'Login failed')
     } finally {
@@ -30,7 +30,7 @@ export default function WorkerLoginPage() {
   }
 
   return (
-    <AuthLayout title="Worker login" subtitle="Clock in to start earning">
+    <AuthLayout title="Compute Node login" subtitle="Allocate to start computing">
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
         <div>
           <label style={{ display: 'block', fontSize: 13, fontWeight: 500, color: 'var(--color-text)', marginBottom: 6 }}>Email</label>
@@ -52,7 +52,7 @@ export default function WorkerLoginPage() {
 
       <div style={{ textAlign: 'center', marginTop: 16, fontSize: 13, color: 'var(--color-muted)' }}>
         No account?{' '}
-        <Link href="/worker/signup" style={{ color: 'var(--color-primary)', textDecoration: 'none', fontWeight: 500 }}>
+        <Link href="/node/signup" style={{ color: 'var(--color-primary)', textDecoration: 'none', fontWeight: 500 }}>
           Sign up
         </Link>
       </div>

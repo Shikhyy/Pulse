@@ -19,7 +19,7 @@ export default function WorkerSignupPage() {
     try {
       const data: any = await api.signupWorker(form)
       setUser(data.user, data.token)
-      router.push('/worker')
+      router.push('/node')
     } catch (err: any) {
       setError(err.message ?? 'Signup failed')
     } finally {
@@ -28,7 +28,7 @@ export default function WorkerSignupPage() {
   }
 
   return (
-    <AuthLayout title="Join as a worker" subtitle="Start getting paid every 30 seconds">
+    <AuthLayout title="Join as a Compute Node" subtitle="Start getting paid per inference">
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
         <Field label="Your name">
           <input className="input" id="signup-name" placeholder="Priya K." value={form.name}
@@ -42,7 +42,7 @@ export default function WorkerSignupPage() {
           <input className="input" id="signup-password" type="password" placeholder="••••••••" value={form.password}
             onChange={(e) => setForm({ ...form, password: e.target.value })} required />
         </Field>
-        <Field label="Invite code (from your employer)">
+        <Field label="Invite code (from your orchestrator)">
           <input className="input" id="signup-invite" placeholder="Leave blank for demo" value={form.inviteCode}
             onChange={(e) => setForm({ ...form, inviteCode: e.target.value })} />
         </Field>
@@ -50,13 +50,13 @@ export default function WorkerSignupPage() {
         {error && <div style={{ color: 'var(--color-danger)', fontSize: 13 }}>{error}</div>}
 
         <button className="btn btn-primary btn-lg" type="submit" disabled={loading} id="signup-submit">
-          {loading ? 'Creating account…' : 'Create worker account →'}
+              {loading ? 'Creating account…' : 'Create Compute Node →'}
         </button>
       </form>
 
       <div style={{ textAlign: 'center', marginTop: 16, fontSize: 13, color: 'var(--color-muted)' }}>
         Already have an account?{' '}
-        <Link href="/worker/login" style={{ color: 'var(--color-primary)', textDecoration: 'none', fontWeight: 500 }}>
+        <Link href="/node/login" style={{ color: 'var(--color-primary)', textDecoration: 'none', fontWeight: 500 }}>
           Log in
         </Link>
       </div>

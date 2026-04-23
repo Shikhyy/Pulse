@@ -34,7 +34,7 @@ export default function LandingPage() {
           <Link href="/agents" className="nav-link">Agents</Link>
           <Link href="/demo" className="nav-link">Proof</Link>
         </div>
-        <Link href="/worker/login" className="nav-cta">Start Earning</Link>
+        <Link href="/node/login" className="nav-cta">Connect Compute</Link>
       </nav>
 
       {/* 1. Hero Section */}
@@ -51,17 +51,17 @@ export default function LandingPage() {
           </div>
           
           <h1 className="page-enter hero-title" style={{ animationDelay: '0.2s' }}>
-            Stop paying by the hour.<br/>
-            <span className="text-gradient-flow" style={{ fontStyle: 'italic', paddingBottom: 8 }}>Pay by the second.</span>
+            The atomic economy for AI.<br/>
+            <span className="text-gradient-flow" style={{ fontStyle: 'italic', paddingBottom: 8 }}>Pay per inference.</span>
           </h1>
           
           <p className="page-enter hero-sub" style={{ animationDelay: '0.3s' }}>
-            Pulse is an autonomous payroll engine utilizing Circle Nanopayments. Watch microseconds of work converted instantly into immutable USDC streams directly to employee wallets.
+            Pulse is an autonomous compute network utilizing Circle Nanopayments. Watch inference cycles converted instantly into immutable USDC streams directly to AI agent wallets.
           </p>
           
           <div className="page-enter" style={{ display: 'flex', gap: 16, animationDelay: '0.4s' }}>
-            <Link href="/employer/signup" className="btn-primary">
-              Create Employer Fleet
+            <Link href="/orchestrator/signup" className="btn-primary">
+              Deploy Orchestrator
             </Link>
             <Link href="/demo" className="btn-ghost">
               View Simulation Proof &rarr;
@@ -74,7 +74,7 @@ export default function LandingPage() {
               <div className="hero-stat-label">Min Transaction</div>
             </div>
             <div className="hero-stat">
-              <div className="hero-stat-val">30 sec</div>
+              <div className="hero-stat-val">Atomic</div>
               <div className="hero-stat-label">Settlement Time</div>
             </div>
             <div className="hero-stat">
@@ -88,14 +88,14 @@ export default function LandingPage() {
       {/* 2. How it works */}
       <section className="section" style={{ background: 'var(--bg2)', borderTop: '1px solid var(--border)' }}>
         <div className="section-label">01. Autonomous Mechanics</div>
-        <h2 className="section-title">A self-driving payroll layer.</h2>
+        <h2 className="section-title">A self-driving compute layer.</h2>
         
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr)', gap: 60, marginTop: 60 }} className="how-grid">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
-            <Step number="01" title="Workers Clock In" desc="The Activity Agent initializes an EIP-712 session constraint locally." />
-            <Step number="02" title="Activity Verified" desc="Microsignatures are logged every 30 seconds to prove active connection." />
+            <Step number="01" title="Nodes Allocate Compute" desc="The Compute Agent initializes an EIP-712 inference constraint locally." />
+            <Step number="02" title="Inference Verified" desc="Microsignatures are logged every compute cycle to prove active execution." />
             <Step number="03" title="Budget Guarded" desc="The Budget Guard engine ensures daily limits are respected before execution." />
-            <Step number="04" title="Payment Dispatched" desc="Circle APIs fire a $0.009 payment into a developer-controlled wallet instantly." />
+            <Step number="04" title="Payment Dispatched" desc="Circle APIs fire a $0.009 payment into a developer-controlled agent wallet instantly." />
           </div>
           <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 20, padding: 40, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <div className="ticker-hero" style={{ width: '100%' }}>
@@ -104,7 +104,7 @@ export default function LandingPage() {
               <div className="ticker-value" style={{ fontSize: 52 }}>
                 ${simVal.toFixed(3)}
               </div>
-              <div className="ticker-rate" style={{ color: 'var(--teal)' }}>Firing ~30s</div>
+              <div className="ticker-rate" style={{ color: 'var(--teal)' }}>Firing / Cycle</div>
             </div>
           </div>
         </div>
@@ -118,7 +118,7 @@ export default function LandingPage() {
         <div className="features-grid" style={{ marginTop: 60 }}>
           <Feature 
             title="Circle Developer Wallets"
-            desc="Employees receive frictionless, seedless sub-wallets created purely via background API calls."
+            desc="AI Compute Nodes receive frictionless, seedless sub-wallets created purely via background API calls."
           />
           <Feature 
             title="Arc Testnet Routing"
@@ -126,7 +126,7 @@ export default function LandingPage() {
           />
           <Feature 
             title="AI Constraint Checking"
-            desc="Employer caps, maximum shift durations, and idle detection are all completely autonomous."
+            desc="Orchestrator caps, maximum compute limits, and idle detection are all completely autonomous."
           />
           <Feature 
             title="EIP-712 Verification"
@@ -145,10 +145,10 @@ export default function LandingPage() {
 
       {/* CTA */}
       <section className="section" style={{ background: 'var(--bg2)', borderTop: '1px solid var(--border)', textAlign: 'center', padding: '120px 20px' }}>
-        <h2 className="section-title">Ready to flip the switch?</h2>
+        <h2 className="section-title">Ready to deploy?</h2>
         <div style={{ display: 'flex', gap: 16, justifyContent: 'center', marginTop: 40 }}>
-          <Link href="/worker/login" className="btn-primary">Enter as Worker</Link>
-          <Link href="/employer/signup" className="btn-ghost">Enter as Employer</Link>
+          <Link href="/node/login" className="btn-primary">Enter as Compute Node</Link>
+          <Link href="/orchestrator/signup" className="btn-ghost">Enter as Orchestrator</Link>
         </div>
       </section>
     </div>

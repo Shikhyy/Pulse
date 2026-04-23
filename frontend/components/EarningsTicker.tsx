@@ -30,7 +30,7 @@ export default function EarningsTicker({ value, tickKey, isActive = true }: Earn
         </div>
       </div>
 
-      <div className="ticker-label">Earned this session</div>
+      <div className="ticker-label">Compute Yield this Session</div>
       
       {/* 
         Changing key="tick" forces React to unmount and remount this div, 
@@ -44,7 +44,7 @@ export default function EarningsTicker({ value, tickKey, isActive = true }: Earn
       </div>
 
       <div className="ticker-rate">
-        $0.0003 / second &middot; $0.009 / 30s ping
+        $0.009 / Inference Cycle
       </div>
     </div>
   )

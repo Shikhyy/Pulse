@@ -6,12 +6,12 @@ const AGENTS_CONFIG = [
   {
     avatar: <AgentAvatars.activity />,
     color: '#00e5a0',
-    name: 'Activity Agent',
-    role: 'Proof of Work',
+    name: 'Compute Agent',
+    role: 'Proof of Compute',
     status: 'Active',
-    desc: 'Listens to frontend WebSocket connections to ascertain worker activity. Cryptographically signs payload snapshots.',
+    desc: 'Listens to frontend WebSocket connections to ascertain inference activity. Cryptographically signs payload snapshots.',
     skills: ['EIP-712 Signing', 'Input Sampling'],
-    metric: { label: 'Avg pings/hr', val: '120.0' }
+    metric: { label: 'Avg cycles/hr', val: '120.0' }
   },
   {
     avatar: <AgentAvatars.payment />,
@@ -29,7 +29,7 @@ const AGENTS_CONFIG = [
     name: 'Budget Guard',
     role: 'Enforcer',
     status: 'Active',
-    desc: 'Sits asynchronously on the worker stream, killing payments or pausing loops if the Employer hits their specified daily cap.',
+    desc: 'Sits asynchronously on the inference stream, killing payments or pausing loops if the Orchestrator hits their specified daily cap.',
     skills: ['Threshold Alerting', 'Session Locking'],
     metric: { label: 'Limits Mapped', val: '2/15' }
   }
@@ -47,7 +47,7 @@ export default function AgentsPage() {
           <Link href="/agents" className="nav-link active">Agents</Link>
           <Link href="/demo" className="nav-link">Proof</Link>
         </div>
-        <Link href="/worker/login" className="nav-cta">Start Earning</Link>
+        <Link href="/node/login" className="nav-cta">Connect Compute</Link>
       </nav>
 
       <section className="section" style={{ minHeight: '100vh', paddingTop: 140 }}>
@@ -58,15 +58,15 @@ export default function AgentsPage() {
           <div className="section-label" style={{ justifyContent: 'center' }}>03. Automation Layer</div>
           <h1 className="hero-title">The Three-Agent Pipeline</h1>
           <p className="hero-sub" style={{ margin: '0 auto' }}>
-            Pulse uses a deterministic 3-agent pipeline to govern worker payment flows. 
+            Pulse uses a deterministic 3-agent pipeline to govern compute node payment flows. 
             No human intervention required.
           </p>
         </div>
 
         {/* Diagram */}
         <div className="page-enter" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 16, marginBottom: 80, overflowX: 'auto', paddingBottom: 20, animationDelay: '0.1s' }}>
-          <Tag>Worker</Tag> <Arrow />
-          <Tag>Activity Agent</Tag> <Arrow />
+          <Tag>Compute Node</Tag> <Arrow />
+          <Tag>Compute Agent</Tag> <Arrow />
           <Tag>Budget Guard</Tag> <Arrow />
           <Tag>Payment Engine</Tag> <Arrow />
           <Tag color="var(--teal)">Arc Testnet</Tag>

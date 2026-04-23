@@ -14,19 +14,19 @@ export default function WorkerLandingPage() {
   useEffect(() => {
     if (!user && !token) {
       const saved = typeof window !== 'undefined' ? localStorage.getItem('pulse_token') : null
-      if (!saved) router.push('/worker/login')
+      if (!saved) router.push('/node/login')
     }
-    if (isClocked) router.push('/worker/session')
+    if (isClocked) router.push('/node/session')
   }, [user, token, isClocked, router])
 
   const handleClockIn = async () => {
-    if (!token) return router.push('/worker/login')
+    if (!token) return router.push('/node/login')
     setLoading(true)
     setError('')
     try {
       const data: any = await api.clockIn(token)
       setSession(data.sessionId)
-      router.push('/worker/session')
+      router.push('/node/session')
     } catch (err: any) {
       setError(err.message ?? 'Clock-in failed. Make sure you are linked to an employer.')
     } finally {
@@ -66,7 +66,7 @@ export default function WorkerLandingPage() {
           <p style={{ color: 'var(--text2)', marginBottom: 40, position: 'relative', zIndex: 2 }}>
             {todayEarnings > 0
               ? <>Today you've earned <strong style={{ color: 'var(--teal)' }}>${todayEarnings.toFixed(3)}</strong> so far</>
-              : 'Ready to start earning? Clock in to begin receiving USDC.'}
+              : 'Ready to compute? Allocate resources to begin receiving USDC per inference.'}
           </p>
 
           {/* Rate preview */}
@@ -96,7 +96,7 @@ export default function WorkerLandingPage() {
             disabled={loading}
             id="clock-in-btn"
           >
-            {loading ? 'Starting session...' : '⏱ Clock In & Start Earning'}
+            {loading ? 'Allocating Compute...' : '⚡ Allocate Compute'}
           </button>
 
           <p style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--text3)', marginTop: 12, lineHeight: 1.5 }}>

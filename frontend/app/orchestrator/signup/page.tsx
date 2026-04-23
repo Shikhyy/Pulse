@@ -19,7 +19,7 @@ export default function EmployerSignupPage() {
     try {
       const data: any = await api.signupEmployer(form)
       setUser(data.user, data.token, data.employer)
-      router.push('/employer')
+      router.push('/orchestrator')
     } catch (err: any) {
       setError(err.message ?? 'Signup failed')
     } finally {
@@ -34,8 +34,8 @@ export default function EmployerSignupPage() {
           <Link href="/" style={{ textDecoration: 'none' }}>
             <div style={{ fontWeight: 700, fontSize: 24, color: 'var(--color-text)', marginBottom: 8 }}>pulse</div>
           </Link>
-          <h1 style={{ fontSize: 22, fontWeight: 600, margin: '0 0 4px' }}>Create employer account</h1>
-          <p style={{ fontSize: 14, color: 'var(--color-muted)', margin: 0 }}>Pay your team every 30 seconds</p>
+          <h1 style={{ fontSize: 22, fontWeight: 600, margin: '0 0 4px' }}>Deploy Orchestrator</h1>
+          <p style={{ fontSize: 14, color: 'var(--color-muted)', margin: 0 }}>Pay your compute nodes per inference</p>
         </div>
 
         <div className="card" style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
@@ -77,13 +77,13 @@ export default function EmployerSignupPage() {
             {error && <div style={{ color: 'var(--color-danger)', fontSize: 13 }}>{error}</div>}
 
             <button className="btn btn-primary btn-lg" type="submit" disabled={loading} id="emp-signup-submit">
-              {loading ? 'Creating account…' : 'Create employer account →'}
+              {loading ? 'Creating account…' : 'Deploy Orchestrator →'}
             </button>
           </form>
 
           <div style={{ textAlign: 'center', marginTop: 14, fontSize: 13, color: 'var(--color-muted)' }}>
             Already have an account?{' '}
-            <Link href="/employer/login" style={{ color: 'var(--color-primary)', textDecoration: 'none', fontWeight: 500 }}>
+            <Link href="/orchestrator/login" style={{ color: 'var(--color-primary)', textDecoration: 'none', fontWeight: 500 }}>
               Log in
             </Link>
           </div>

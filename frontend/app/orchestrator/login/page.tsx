@@ -20,7 +20,7 @@ export default function EmployerLoginPage() {
       const data: any = await api.login(form)
       if (data.user.role !== 'employer') throw new Error('Not an employer account')
       setUser(data.user, data.token, data.employer)
-      router.push('/employer')
+      router.push('/orchestrator')
     } catch (err: any) {
       setError(err.message ?? 'Login failed')
     } finally {
@@ -35,8 +35,8 @@ export default function EmployerLoginPage() {
           <Link href="/" style={{ textDecoration: 'none' }}>
             <div style={{ fontWeight: 700, fontSize: 24, color: 'var(--color-text)', marginBottom: 8 }}>pulse</div>
           </Link>
-          <h1 style={{ fontSize: 22, fontWeight: 600, margin: '0 0 4px' }}>Employer login</h1>
-          <p style={{ fontSize: 14, color: 'var(--color-muted)', margin: 0 }}>Monitor your team in real time</p>
+          <h1 style={{ fontSize: 22, fontWeight: 600, margin: '0 0 4px' }}>Orchestrator login</h1>
+          <p style={{ fontSize: 14, color: 'var(--color-muted)', margin: 0 }}>Monitor your compute nodes in real time</p>
         </div>
         <div className="card" style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -57,7 +57,7 @@ export default function EmployerLoginPage() {
           </form>
           <div style={{ textAlign: 'center', marginTop: 14, fontSize: 13, color: 'var(--color-muted)' }}>
             No account?{' '}
-            <Link href="/employer/signup" style={{ color: 'var(--color-primary)', textDecoration: 'none', fontWeight: 500 }}>
+            <Link href="/orchestrator/signup" style={{ color: 'var(--color-primary)', textDecoration: 'none', fontWeight: 500 }}>
               Sign up
             </Link>
           </div>

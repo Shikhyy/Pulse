@@ -69,7 +69,7 @@ export default function DemoProofPage() {
           <Link href="/agents" className="nav-link">Agents</Link>
           <Link href="/demo" className="nav-link active">Proof</Link>
         </div>
-        <Link href="/worker/login" className="nav-cta">Start Earning</Link>
+        <Link href="/node/login" className="nav-cta">Connect Compute</Link>
       </nav>
 
       {/* Header */}
@@ -136,9 +136,9 @@ export default function DemoProofPage() {
                 </tr>
               </thead>
               <tbody>
-                <TableRow scenario="1 worker, 1 min" payout="$0.018" arc="$0.018 + $0.00 gas" stripe="~ $0.62" badge="bad" />
-                <TableRow scenario="1 worker, 1 hour" payout="$1.08" arc="$1.08 + $0.00 gas" stripe="~ $36.03" badge="bad" />
-                <TableRow scenario="5 workers, 8 hours" payout="$43.20" arc="$43.20 + $0.00 gas" stripe="~ $1,441.42" badge="bad" />
+                <TableRow scenario="1 node, 1 min" payout="$0.018" arc="$0.018 + $0.00 gas" stripe="~ $0.62" badge="bad" />
+                <TableRow scenario="1 node, 1 hour" payout="$1.08" arc="$1.08 + $0.00 gas" stripe="~ $36.03" badge="bad" />
+                <TableRow scenario="5 nodes, 8 hours" payout="$43.20" arc="$43.20 + $0.00 gas" stripe="~ $1,441.42" badge="bad" />
               </tbody>
             </table>
           </div>
