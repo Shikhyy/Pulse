@@ -108,11 +108,18 @@ sequenceDiagram
 
 ### 1. Configure Circle API
 
-```bash
-# Edit .env
-CIRCLE_API_KEY=pki_xxx
-CIRCLE_ENTITY_SECRET=ces_xxx
-WORKER_WALLET_SET_ID=wtset_xxx
+Your Circle API key format needs to include environment prefix:
+
+```
+TEST_API_KEY:24569b9eb933cd04d7f4d4e193980d45:44f774ca4b2dd353a4796f85e90cf381
+```
+
+Then register entity secret at:
+- **Circle Console → Developer Wallets → Register Entity Secret**
+
+Once registered, update `.env.local`:
+```
+CIRCLE_API_KEY=TEST_API_KEY:your_id:your_secret
 STUB_MODE=false
 ```
 
