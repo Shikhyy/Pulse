@@ -26,3 +26,43 @@ export default function RootLayout({
     </html>
   )
 }
+
+export function generateErrorFallback() {
+  return (
+    <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      </head>
+      <body>
+        <div style={{
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: '#FEFDDF',
+          color: '#000',
+          fontFamily: 'system-ui, sans-serif',
+        }}>
+          <div style={{ textAlign: 'center', padding: 24 }}>
+            <h1 style={{ fontSize: 24, marginBottom: 16 }}>Critical Error</h1>
+            <p style={{ marginBottom: 24 }}>Something went wrong. Please refresh.</p>
+            <button
+              onClick={() => window.location.reload()}
+              style={{
+                padding: '12px 24px',
+                background: '#E87F24',
+                color: '#fff',
+                border: 'none',
+                borderRadius: 8,
+                cursor: 'pointer',
+              }}
+            >
+              Reload Page
+            </button>
+          </div>
+        </div>
+      </body>
+    </html>
+  )
+}
