@@ -277,7 +277,7 @@ export class PaymentEngine extends EventEmitter {
         throw new Error('No entity secret - need to register in Circle Console')
       }
       
-      const client = initiateDeveloperControlledWalletsClient({
+      const client = await initiateDeveloperControlledWalletsClient({
         apiKey: apiKey,
         entitySecret: entitySecret,
       })
@@ -285,13 +285,14 @@ export class PaymentEngine extends EventEmitter {
       // Amount in USDC (6 decimals)
       const amountUSDC = (parseFloat(params.amount) * 1_000_000).toFixed(0)
 
-      const res = await client.createTransaction({
+      const res = await client.createTransactionTransfer({
         walletId: params.employerWalletId,
         destinationAddress: params.workerAddress,
         amounts: [amountUSDC],
         tokenAddress: USDC_ADDRESS,
         blockchain: 'ARC-TESTNET',
         accountType: 'EOA',
+        idempotencyKey,
       })
 
       if (!res.data?.id) {

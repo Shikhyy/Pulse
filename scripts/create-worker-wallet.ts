@@ -12,11 +12,11 @@ const OUTPUT_DIR = path.join(__dirname, "output");
 
 async function main() {
   const apiKey = process.env.CIRCLE_API_KEY!;
-  const entitySecret = "44f774ca4b2dd353a4796f85e90cf381";
+  const entitySecret = process.env.CIRCLE_ENTITY_SECRET || "3bfb10d7e7d2fbffc9f6ac437ebb40b5046845d238cf0357190db310cc0a2743";
   const walletSetId = "ff1d377b-d322-5b35-ac3f-9a7fba9275f8";
   
   console.log("🔐 Initializing client...");
-  const client = initiateDeveloperControlledWalletsClient({
+  const client = await initiateDeveloperControlledWalletsClient({
     apiKey,
     entitySecret,
   });
@@ -41,7 +41,14 @@ async function main() {
 
   // Save
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
-  const data = JSON.parse(fs.readFileSync(path.join(OUTPUT_DIR, "wallet-info.json"), "utf-8");
+  
+  // Check if wallet-info.json exists, if not create new
+  let data = { workers: [] };
+  const infoPath = path.join(OUTPUT_DIR, "wallet-info.json");
+  if (fs.existsSync(infoPath)) {
+    data = JSON.parse(fs.readFileSync(infoPath, "utf-8"));
+  }
+  
   data.workerWallet = wallet;
   fs.writeFileSync(
     path.join(OUTPUT_DIR, "wallet-info.json"),
