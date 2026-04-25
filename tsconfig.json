@@ -12,6 +12,6 @@
     "resolveJsonModule": true,
     "declaration": true
   },
-  "include": ["server/**/*", "agents/**/*", "scripts/**/*"],
-  "exclude": ["node_modules", "frontend", "dist"]
+  "include": ["server/**/*", "agents/**/*"],
+  "exclude": ["node_modules", "frontend", "dist", "scripts"]
 }

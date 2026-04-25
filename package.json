@@ -11,7 +11,7 @@
     "bootstrap": "node --env-file=.env --import=tsx scripts/bootstrap.ts",
     "demo": "node --env-file=.env --import=tsx scripts/demo.ts",
     "demo:fast": "FAST_DEMO=true node --env-file=.env --import=tsx scripts/demo.ts",
-    "build": "tsc",
+    "build": "tsc --project tsconfig.json --skipLibCheck",
     "start": "node dist/server/index.js"
   },
   "dependencies": {
