@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express'
-import { verifyTypedData } from 'viem'
+import { verifyTypedData, getAddress } from 'viem'
 import db from '../db'
 import { users, sessions, employers } from '../db/schema'
 import { eq, isNull, and, sql } from 'drizzle-orm'
@@ -32,16 +32,23 @@ router.post('/ping', async (req: Request, res: Response) => {
       return res.status(404).json({ error: 'worker_not_found' })
     }
 
-    // 2. Verify EIP-712 signature (skip if stub mode or no wallet address)
-    const isStubMode =
-      !process.env.CIRCLE_API_KEY ||
-      process.env.CIRCLE_API_KEY === 'your_api_key' ||
-      process.env.STUB_MODE === 'true'
-
-    if (!isStubMode && worker.walletAddress) {
+    // 2. Verify EIP-712 signature 
+    // Skip if stub mode OR if signature is a demo signature (all zeros)
+    const isStubMode = process.env.STUB_MODE === 'true'
+    const isDemoSignature = signature?.startsWith('0x' + '0'.repeat(130))
+    
+    if (worker.walletAddress && !isDemoSignature && !isStubMode) {
       try {
+        const walletAddr = worker.walletAddress as string
+        let validAddr = walletAddr
+        try {
+          validAddr = getAddress(walletAddr)
+        } catch {
+          validAddr = walletAddr
+        }
+        
         const isValid = await verifyTypedData({
-          address: worker.walletAddress as `0x${string}`,
+          address: validAddr as `0x${string}`,
           domain: {},
           types: {
             ActivityProof: [
@@ -64,8 +71,10 @@ router.post('/ping', async (req: Request, res: Response) => {
           return res.status(401).json({ error: 'invalid_signature' })
         }
       } catch (err) {
-        console.warn('[Ping] EIP-712 verification skipped (error):', err)
+        console.warn('[Ping] EIP-712 verification skipped:', err)
       }
+    } else {
+      console.log('[Ping] Signature verification skipped (demo mode or demo signature)')
     }
 
     // 3. Check session is active

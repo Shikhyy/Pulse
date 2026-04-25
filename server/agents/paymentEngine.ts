@@ -184,24 +184,15 @@ export class PaymentEngine extends EventEmitter {
   }
 
   private isStubMode(): boolean {
-    return !process.env.CIRCLE_API_KEY || 
-      process.env.CIRCLE_API_KEY === 'your_api_key' ||
-      process.env.STUB_MODE === 'true'
+    return process.env.STUB_MODE === 'true'
   }
 
   private isNanopaymentAvailable(): boolean {
-    return Boolean(
-      process.env.CIRCLE_API_KEY && 
-      process.env.CIRCLE_API_KEY !== 'your_api_key' &&
-      process.env.STUB_MODE !== 'true'
-    )
+    return process.env.STUB_MODE !== 'true' && Boolean(process.env.CIRCLE_API_KEY)
   }
 
   private isWalletTransferAvailable(): boolean {
-    return Boolean(
-      process.env.CIRCLE_API_KEY &&
-      process.env.CIRCLE_ENTITY_SECRET
-    )
+    return Boolean(process.env.CIRCLE_API_KEY)
   }
 
   private async isGatewayAvailable(): Promise<boolean> {
