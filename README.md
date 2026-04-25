@@ -50,47 +50,22 @@ Each ping = immediate USDC transfer to freelancer's wallet on Arc.
 
 ```mermaid
 flowchart LR
-    subgraph Employer
-        E1[Wallet]
-        E2[Dashboard]
-        E3[Budget Cap]
-    end
-    
-    subgraph Freelancer
-        F1[Session]
-        F2[Pinger]
-        F3[Wallet]
-    end
-    
-    subgraph Pulse
-        P1[Verify]
-        P2[Circle Transfer]
-    end
-    
-    subgraph Arc
-        A[USDC on Chain]
-    end
-    
-    F1 --> F2
-    F2 --> P1
-    P1 --> E3
-    E3 --> P2
-    P2 --> A
-    A --> F3
+    E1[Employer Wallet] --> E2[Budget Guard]
+    F1[Freelancer Session] --> F2[Pinger]
+    F2 --> P1[Verify Signature]
+    P1 --> P2[Circle Transfer]
+    P2 --> A[USDC on Arc]
+    A --> F3[Freelancer Wallet]
 ```
 
-### Session State Machine
+### Session States
 
 ```mermaid
 stateDiagram-v2
     [*] --> Idle
-    Idle --> ClockIn
-    ClockIn --> Working
-    Working --> Working
-    Working --> Pause
-    Pause --> Working
-    Working --> ClockOut
-    ClockOut --> Idle
+    Idle --> Working: clock in
+    Working --> Working: ping
+    Working --> Idle: clock out
 ```
 ```
 
@@ -98,27 +73,22 @@ stateDiagram-v2
 
 ```mermaid
 sequenceDiagram
-    participant E as Employer
-    participant P as Pulse API
-    participant C as Circle
-    participant A as Arc
+    participant Employer
+    participant Pulse
+    participant Circle
+    participant Arc
     
-    Note over E: Funds wallet with USDC
-    E->>P: Start session
-    P->>P: Verify auth
+    Employer->>Pulse: Start session
+    Pulse->>Pulse: Verify auth
     
-    loop Every 30 seconds
-        P->>P: Verify signature
-        P->>P: Check budget
-        P->>C: Initiate transfer
-        C->>A: Submit transaction
-        A-->>C: Confirm
-        C-->>P: Complete
-        P-->>E: Payment sent
+    loop Every 30s
+        Pulse->>Circle: Transfer $0.009
+        Circle->>Arc: Submit tx
+        Arc-->>Circle: Confirm
+        Circle-->>Pulse: Complete
     end
     
-    E->>P: End session
-    P-->>E: Session summary
+    Employer->>Pulse: End session
 ```
 
 ---
