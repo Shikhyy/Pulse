@@ -141,7 +141,7 @@ export default function DemoProofPage() {
 
         {/* Products Integration Checklist */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 40, animationDelay: '0.4s' }} className="page-enter">
-          <Checklist title="Circle Nanopayments" desc="Sub-cent USDC transfers at $0.009 per inference cycle." />
+          <Checklist title="Circle Nanopayments" desc="Sub-cent USDC transfers at $0.009 per 30-second cycle." />
           <Checklist title="Developer-Controlled Wallets" desc="Frictionless end-user setup; seedless sub-wallets via API." />
           <Checklist title="x402 Payment Standard" desc="Web-native payment protocol for autonomous agents." />
           <Checklist title="Smart Contract (Solidity)" desc="On-chain session tracking, budget enforcement, and pause controls." />

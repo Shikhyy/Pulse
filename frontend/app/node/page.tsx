@@ -66,7 +66,7 @@ export default function WorkerLandingPage() {
           <p style={{ color: 'var(--text2)', marginBottom: 40, position: 'relative', zIndex: 2 }}>
             {todayEarnings > 0
               ? <>Today you've earned <strong style={{ color: 'var(--teal)' }}>${todayEarnings.toFixed(3)}</strong> so far</>
-              : 'Ready to compute? Allocate resources to begin receiving USDC per inference.'}
+              : 'Ready to work? Clock in to start receiving USDC payments.'}
           </p>
 
           {/* Rate preview */}

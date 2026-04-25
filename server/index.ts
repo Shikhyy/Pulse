@@ -31,7 +31,8 @@ initSocket(httpServer)
 initDb()
 
 // Middleware
-app.use(cors({ origin: '*' }))
+// TODO: In production, restrict CORS origins
+app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }))
 app.use(express.json())
 
 // Health check

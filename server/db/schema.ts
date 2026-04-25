@@ -10,7 +10,8 @@ export const users = sqliteTable('users', {
   circleWalletId: text('circle_wallet_id'),
   walletAddress: text('wallet_address'),
   employerId: text('employer_id'), // for workers: which employer they belong to
-  createdAt: text('created_at').default(sql`(datetime('now'))`),
+  inviteCode: text('invite_code'), // which invite was used
+  createdAt: text('created_at').default(sql`(datetime('now'))`,
 })
 
 export const employers = sqliteTable('employers', {

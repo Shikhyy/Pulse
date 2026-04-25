@@ -28,7 +28,7 @@ export default function WorkerSignupPage() {
   }
 
   return (
-    <AuthLayout title="Join as a Compute Node" subtitle="Start getting paid per inference">
+    <AuthLayout title="Join as a Worker" subtitle="Start getting paid every 30 seconds">
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
         <Field label="Your name">
           <input className="input" id="signup-name" placeholder="Priya K." value={form.name}

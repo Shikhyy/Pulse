@@ -1,7 +1,9 @@
 'use client'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import Scene3D from '@/components/Scene3D'
+import DoodleBackground from '@/components/DoodleBackground'
+import Icon from '@/components/Icon'
+import type { IconProps } from '@/components/Icon'
 
 export default function LandingPage() {
   const [visible, setVisible] = useState(false)
@@ -43,10 +45,7 @@ export default function LandingPage() {
       {/* 1. Hero Section */}
       <header className="hero">
         <div className="grid-bg" />
-        <div className="orb-1" />
-        <div className="orb-2" />
-        <div className="orb-3" />
-        <Scene3D />
+        <DoodleBackground />
         
         <div className="hero-content">
           <div className="page-enter eyebrow-chip" style={{ animationDelay: '0.1s' }}>
@@ -54,13 +53,13 @@ export default function LandingPage() {
           </div>
           
           <h1 className="page-enter hero-title" style={{ animationDelay: '0.2s', fontSize: 56 }}>
-            The atomic economy for AI.<br/>
-            <span className="text-gradient-flow" style={{ fontStyle: 'italic', paddingBottom: 8 }}>Pay per inference.</span>
+            Real-time pay for freelancers.<br/>
+            <span className="text-gradient-flow" style={{ fontStyle: 'italic', paddingBottom: 8 }}>Get paid every 30 seconds.</span>
           </h1>
           
           <p className="page-enter hero-sub" style={{ animationDelay: '0.3s', maxWidth: 600 }}>
-            Pulse enables autonomous AI agents to transact in real-time with sub-cent nanopayments. 
-            Built on Circle Nanopayments + x402 protocol for gas-free, high-frequency transactions.
+            Freelancers get paid in real-time with sub-cent nanopayments. 
+            No more waiting 30 days for payroll. Built on Circle Nanopayments + x402 protocol.
           </p>
           
           <div className="page-enter" style={{ display: 'flex', gap: 16, animationDelay: '0.4s', flexWrap: 'wrap', justifyContent: 'center' }}>
@@ -118,28 +117,28 @@ export default function LandingPage() {
       {/* 3. How it works */}
       <section className="section" style={{ background: 'var(--bg2)', borderTop: '1px solid var(--border)' }}>
         <div className="section-label">01. How It Works</div>
-        <h2 className="section-title">Four steps to autonomous payments.</h2>
+        <h2 className="section-title">Four steps to real-time pay.</h2>
         
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, marginTop: 60 }} className="how-grid">
           <Step 
-            icon="🔐"
-            title="1. Agent Registers" 
-            desc="AI agents register as ERC-8004 identities on-chain. Each gets a Circle developer-controlled wallet."
+            iconName="shield-lock"
+            title="1. Worker Registers" 
+            desc="Freelancers register and connect their Circle wallet. Set your hourly rate and payment schedule."
           />
           <Step 
-            icon="⚡"
-            title="2. Work Verified" 
-            desc="Activity agents verify work via EIP-712 signed proofs. Every 30 seconds, a new proof is generated."
+            iconName="zap"
+            title="2. Work Tracked" 
+            desc="Track your work sessions in real-time. Every 30 seconds, a verified proof is generated."
           />
           <Step 
-            icon="💳"
-            title="3. Payment Triggered" 
-            desc="The Payment Engine receives the proof, checks budgets, and dispatches a $0.009 USDC nanopayment."
+            iconName="card"
+            title="3. Payment Sent" 
+            desc="Your employer defines a budget. Work gets verified and payments are instantly dispatched."
           />
           <Step 
-            icon="✅"
-            title="4. On-Chain Settlement" 
-            desc="Circle Gateway batches thousands of these payments into a single on-chain transaction."
+            iconName="check"
+            title="4. Instant Settlement" 
+            desc="Funds arrive directly in your wallet. No middleman, no waiting 30 days."
           />
         </div>
       </section>
@@ -225,19 +224,19 @@ export default function LandingPage() {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginTop: 40 }}>
           <UseCase 
-            title="AI Agent Marketplace"
-            description="Autonomous agents compete for compute tasks. Payment per task completion, not hourly."
-            example="$0.009 per inference"
+            title="Remote Freelancers"
+            description="Pay remote workers in real-time. Every 30 seconds, they get paid for their time."
+            example="$0.009 per 30s"
           />
           <UseCase 
-            title="API Monetization"
-            description="Charge per API call. Enable pay-per-use pricing for AI models and data services."
-            example="$0.001 per request"
+            title="Contractor Payments"
+            description="Pay contractors per task or per hour. No more invoicing delay. Instant settlement."
+            example="$0.05 per task"
           />
           <UseCase 
-            title="Continuous Monitoring"
-            description="IoT sensors and AI monitors get paid per data point transmitted. Micro-transactions at scale."
-            example="$0.0001 per reading"
+            title="Freelance Teams"
+            description="Pay multiple freelancers at once. Batch payments, individual tracking."
+            example="$10/hr each"
           />
           <UseCase 
             title="Freelance Payroll"
@@ -259,14 +258,14 @@ export default function LandingPage() {
 
       {/* 7. CTA */}
       <section className="section" style={{ background: 'var(--bg2)', borderTop: '1px solid var(--border)', textAlign: 'center', padding: '120px 20px' }}>
-        <h2 className="section-title">Ready to build the agentic economy?</h2>
+        <h2 className="section-title">Ready to pay freelancers in real-time?</h2>
         <p style={{ maxWidth: 500, margin: '16px auto', color: 'var(--text2)' }}>
-          Deploy your first autonomous payment flow in minutes. 
-          Built for the LabLab.ai Nano Payments on Arc Hackathon.
+          Set up real-time payments for your freelancers in minutes. 
+          No more net-30 payroll. Every 30 seconds, they get paid.
         </p>
         <div style={{ display: 'flex', gap: 16, justifyContent: 'center', marginTop: 40, flexWrap: 'wrap' }}>
           <Link href="/orchestrator/signup" className="btn-primary" style={{ padding: '16px 32px', fontSize: 16 }}>
-            Start Building →
+            Start Paying Freelancers →
           </Link>
           <Link href="/demo" className="btn-ghost" style={{ padding: '16px 32px', fontSize: 16 }}>
             View Demo Proof
@@ -280,7 +279,7 @@ export default function LandingPage() {
       {/* Footer */}
       <footer style={{ padding: 40, textAlign: 'center', borderTop: '1px solid var(--border)', color: 'var(--text3)', fontSize: 13 }}>
         <div style={{ marginBottom: 8 }}>
-          <strong style={{ color: 'var(--teal)' }}>Pulse</strong> — Agentic Compute Network
+          <strong style={{ color: 'var(--teal)' }}>Pulse</strong> — Real-Time Freelancer Pay
         </div>
         <div>
           Arc Testnet • Circle Nanopayments • x402 • ERC-8004
@@ -293,10 +292,12 @@ export default function LandingPage() {
   )
 }
 
-function Step({ icon, title, desc }: { icon: string, title: string, desc: string }) {
+function Step({ iconName, title, desc }: { iconName: string, title: string, desc: string }) {
   return (
-    <div style={{ padding: 24, background: 'var(--surface)', borderRadius: 16, border: '1px solid var(--border)' }}>
-      <div style={{ fontSize: 32, marginBottom: 16 }}>{icon}</div>
+    <div className="card card-static animate-doodle-wobble" style={{ padding: 24, borderRadius: 16 }}>
+      <div style={{ marginBottom: 16, color: 'var(--teal)' }}>
+        <Icon name={iconName as IconProps['name']} size={32} />
+      </div>
       <h3 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text)', margin: '0 0 8px' }}>{title}</h3>
       <p style={{ color: 'var(--text2)', margin: 0, fontSize: 13, lineHeight: 1.5 }}>{desc}</p>
     </div>

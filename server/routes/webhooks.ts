@@ -37,9 +37,11 @@ router.post('/webhooks', (req: Request, res: Response) => {
     return res.status(400).json({ error: 'Invalid webhook URL' })
   }
 
-  const webhookId = crypto.randomBytes(16).toString('hex')
+const webhookId = crypto.randomBytes(16).toString('hex')
   const webhookSecret = secret || crypto.randomBytes(32).toString('hex')
-
+  
+  const userId = (req as any).userId as string
+  
   webhooks.set(webhookId, {
     id: webhookId,
     url,
@@ -49,6 +51,7 @@ router.post('/webhooks', (req: Request, res: Response) => {
     active: true,
     deliveries: 0,
     failures: 0,
+    userId, // Track which user registered this
   })
 
   // Initialize event buffer

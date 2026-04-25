@@ -262,7 +262,7 @@ export class PaymentEngine extends EventEmitter {
       
       // Get API key and entity secret 
       const apiKey = process.env.CIRCLE_API_KEY || ''
-      let entitySecret = process.env.CIRCLE_ENTITY_SECRET || ''
+let entitySecret = process.env.CIRCLE_ENTITY_SECRET || ''
       
       // If not in env, try to parse from API key format: TEST_API_KEY:ID:SECRET
       if (!entitySecret || entitySecret.length < 32) {
@@ -270,16 +270,13 @@ export class PaymentEngine extends EventEmitter {
         entitySecret = parts[parts.length - 1] || ''
       }
       
-      console.log('[PaymentEngine] API Key:', apiKey.slice(0, 20), '...')
-      console.log('[PaymentEngine] Entity Secret:', entitySecret.slice(0, 10), '...')
-      
       if (!entitySecret || entitySecret.length < 32) {
         throw new Error('No entity secret - need to register in Circle Console')
       }
       
-      const client = initiateDeveloperControlledWalletsClient({
-        apiKey: apiKey,
-        entitySecret: entitySecret,
+      const client = await initiateDeveloperControlledWalletsClient({
+        apiKey,
+        entitySecret,
       })
 
       // Amount in USDC (6 decimals)

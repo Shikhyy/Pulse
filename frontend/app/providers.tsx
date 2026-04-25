@@ -10,7 +10,7 @@ interface ProvidersProps {
 export function Providers({ children }: ProvidersProps) {
   return (
     <>
-      <NetworkBanner showNetwork showDemoMode />
+      <NetworkBanner showNetwork={false} showDemoMode={false} />
       <ToastContainer />
       {children}
     </>

@@ -35,7 +35,7 @@ export default function EmployerSignupPage() {
             <div style={{ fontWeight: 700, fontSize: 24, color: 'var(--color-text)', marginBottom: 8 }}>pulse</div>
           </Link>
           <h1 style={{ fontSize: 22, fontWeight: 600, margin: '0 0 4px' }}>Deploy Orchestrator</h1>
-          <p style={{ fontSize: 14, color: 'var(--color-muted)', margin: 0 }}>Pay your compute nodes per inference</p>
+          <p style={{ fontSize: 14, color: 'var(--color-muted)', margin: 0 }}>Pay your freelancers in real-time</p>
         </div>
 
         <div className="card" style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
