@@ -49,29 +49,26 @@ Each ping = immediate USDC transfer to freelancer's wallet on Arc.
 ### Payment Flow
 
 ```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': {'darkMode': true}}}%%
 flowchart LR
-    subgraph Employer_Side
-        direction TB
-        E1["Wallet: Funds account"]
-        E2["Dashboard: Views work"]
-        E3["Budget Cap: Sets limits"]
+    subgraph Employer
+        E1[Wallet]
+        E2[Dashboard]
+        E3[Budget Cap]
     end
     
-    subgraph Freelancer_Side
-        direction TB
-        F1["Session: Clock in"]
-        F2["Pinger: Sends pings"]
-        F3["Wallet: Receives USDC"]
+    subgraph Freelancer
+        F1[Session]
+        F2[Pinger]
+        F3[Wallet]
     end
     
-    subgraph Pulse_Engine
-        P1["Verify: EIP-712 sig"]
-        P2["Circle: Transfer"]
+    subgraph Pulse
+        P1[Verify]
+        P2[Circle Transfer]
     end
     
-    subgraph Arc_Chain
-        A["USDC: On-chain"]
+    subgraph Arc
+        A[USDC on Chain]
     end
     
     F1 --> F2
@@ -85,28 +82,21 @@ flowchart LR
 ### Session State Machine
 
 ```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': {'darkMode': true}}}%%
 stateDiagram-v2
     [*] --> Idle
-    
-    Idle --> ClockIn: Clock in
-    ClockIn --> Working: Active
-    Working --> Working: Ping every 30s
-    Working --> Pause: Break
-    Pause --> Working: Resume
-    Working --> ClockOut: Clock out
+    Idle --> ClockIn
+    ClockIn --> Working
+    Working --> Working
+    Working --> Pause
+    Pause --> Working
+    Working --> ClockOut
     ClockOut --> Idle
-    
-    note right of Working
-        Each ping: $0.009
-        ~120 pings per hour
-    end note
+```
 ```
 
 ### Sequence Diagram
 
 ```mermaid
-%%{init: {'theme': 'dark'}}%%
 sequenceDiagram
     participant E as Employer
     participant P as Pulse API
@@ -114,25 +104,20 @@ sequenceDiagram
     participant A as Arc
     
     Note over E: Funds wallet with USDC
+    E->>P: Start session
+    P->>P: Verify auth
     
-    E->>P: Start session for freelancer
-    P->>P: Verify employer auth
-    
-    rect rgb(6, 78, 59)
-        Note over P,A: Worker pings every 30s
-        loop Every 30 seconds
-            P->>P: Verify EIP-712 signature
-            P->>P: Check budget remaining
-            P->>C: Initiate transfer
-            C->>A: Submit transaction
-            A-->>C: Confirm on-chain
-            C-->>P: Transfer complete
-            P-->>E: Payment transferred
-        end
-    end rect
+    loop Every 30 seconds
+        P->>P: Verify signature
+        P->>P: Check budget
+        P->>C: Initiate transfer
+        C->>A: Submit transaction
+        A-->>C: Confirm
+        C-->>P: Complete
+        P-->>E: Payment sent
+    end
     
     E->>P: End session
-    P->>P: Final settlement
     P-->>E: Session summary
 ```
 
