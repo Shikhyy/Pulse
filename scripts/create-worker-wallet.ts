@@ -41,7 +41,7 @@ async function main() {
 
   // Save
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
-  const data = JSON.parse(fs.readFileSync(path.join(OUTPUT_DIR, "wallet-info.json"), "utf-8");
+  const data = JSON.parse(fs.readFileSync(path.join(OUTPUT_DIR, "wallet-info.json"), "utf-8"));
   data.workerWallet = wallet;
   fs.writeFileSync(
     path.join(OUTPUT_DIR, "wallet-info.json"),
