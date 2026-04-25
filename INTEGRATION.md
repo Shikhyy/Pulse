@@ -185,7 +185,9 @@ To enable live mode:
 
 ## 📞 Support
 
-- Circle Docs: https://developers.circle.com/docs
-- Arc Docs: https://docs.arc.network
+- Circle Docs: https://developers.circle.com
+- **arc-escrow Sample**: https://github.com/circlefin/arc-escrow (AI-powered escrow reference)
+- **Arc App Kit**: https://docs.arc.network/app-kit/bridge
+- Arc Escrow Sample: https://github.com/circlefin/arc-escrow
 - x402 Spec: https://x402.org
 - GitHub Issues: https://github.com/Shikhyy/Pulse/issues
