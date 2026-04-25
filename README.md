@@ -49,66 +49,135 @@ Each ping = immediate USDC transfer to freelancer's wallet on Arc.
 ### Payment Flow
 
 ```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': {'darkMode': true}}}%%
+%%{
+  init: {
+    'theme': 'dark',
+    'themeVariables': {
+      'darkMode': true,
+      'primaryColor': '#10b981',
+      'edgeLabelBackground': '#1e293b',
+      'tertiaryColor': '#334155'
+    },
+    ' flowchart': {
+      'curve': 'basis',
+      'padding': 20
+    }
+  }
+}%%
 flowchart LR
-    subgraph Employer
-        E1[💰 Wallet]
-        E2[📊 Dashboard]
-        E3[⛔ Budget Cap]
+    subgraph Employer_Side["👔 Employer"]
+        direction TB
+        E1["💰 Wallet\nFunds account"]
+        E2["📊 Dashboard\nViews work"]
+        E3["⛔ Budget Cap\nSets limits"]
     end
     
-    subgraph Freelancer
-        F1[🔔 Session]
-        F2[📡 Pinger]
-        F3[🏦 Wallet]
+    subgraph Freelancer_Side["👷 Freelancer"]
+        direction TB
+        F1["🔔 Session\nClock in"]
+        F2["📡 Pinger\nSends pings"]
+        F3["🏦 Wallet\nReceives USDC"]
     end
     
-    subgraph Pulse
-        P1[✓ Verify Signature]
-        P2[💳 Circle Transfer]
+    subgraph Pulse_Engine["⚡ Pulse"]
+        P1["✓ Verify\nEIP-712 sig"]
+        P2["💳 Circle\nTransfer"]
     end
     
-    subgraph Arc
-        A[🔗 USDC on Chain]
+    subgraph Arc_Chain["🔗 Arc Testnet"]
+        A["⛽ USDC\nOn-chain"]
     end
     
-    F1 -->|Start| F2
-    F2 -->|Ping| P1
-    P1 --> E3
-    E3 -->|Check| P2
-    P2 -->|Transfer| A
-    A -->|To| F3
+    F1 --> F2
+    F2 ==Ping ($0.009)==> P1
+    P1 -->|Check| E3
+    E3 -->|OK| P2
+    P2 ==Transfer==> A
+    A ==To freelancer==> F3
     
-    style E1 fill:#1e3a5f,color:#fff
-    style E2 fill:#1e3a5f,color:#fff
-    style E3 fill:#f97316,color:#fff
-    style F1 fill:#1e3a5f,color:#fff
-    style F2 fill:#1e3a5f,color:#fff
-    style F3 fill:#1e3a5f,color:#fff
-    style P1 fill:#334155,color:#fff
-    style P2 fill:#334155,color:#fff
-    style A fill:#10b981,color:#fff
+    classDef employer fill:#1e3a5f,stroke:#3b82f6,color:#fff,stroke-width:2px
+    classDef freelancer fill:#1e3a5f,stroke:#f97316,color:#fff,stroke-width:2px
+    classDef engine fill:#1e293b,stroke:#10b981,color:#fff,stroke-width:2px
+    classDef chain fill:#064e3b,stroke:#10b981,color:#10b981,stroke-width:3px
+    
+    class Employer_Side employer
+    class Freelancer_Side freelancer
+    class Pulse_Engine engine
+    class Arc_Chain chain
 ```
 
-### Session State
+### Session State Machine
 
 ```mermaid
-%%{init: {'theme': 'dark'}}%%
+%%{
+  init: {
+    'theme': 'dark',
+    'themeVariables': {
+      'darkMode': true
+    }
+  }
+}%%
 stateDiagram-v2
-    [*] --> Idle
-    Idle --> ClockIn: Clock in
-    ClockIn --> Working: Pinging
-    Working --> Working: Every 30s = $0.009
-    Working --> Pause: Take break
-    Pause --> Working: Resume
-    Working --> ClockOut: Clock out
-    ClockOut --> Idle
+    [*] --> Idle: Not working
     
-    style Idle fill:#1e293b,color:#fff
-    style ClockIn fill:#10b981,color:#fff
-    style Working fill:#10b981,color:#fff
-    style Pause fill:#f97316,color:#fff
-    style ClockOut fill:#64748b,color:#fff
+    Idle --> ClockIn: 👆 Clock in
+    ClockIn --> Working: 🟢 Session active
+    Working --> Working: 📡 Ping ($0.009)
+    Working --> Pause: ☕ Break
+    Pause --> Working: ▶ Resume
+    Working --> ClockOut: ⏹ Clock out
+    ClockOut --> Idle: 💤 Done
+    
+    note right of Working
+        Pings every ~30 seconds
+        Each ping = $0.009 USDC
+        ~120 pings per hour
+    end note
+    
+    classDef idle fill:#1e293b,stroke:#64748b,color:#fff
+    classDef active fill:#064e3b,stroke:#10b981,color:#fff,stroke-width:2px
+    classDef paused fill:#451a03,stroke:#f97316,color:#fff
+    
+    class ClockIn,Working active
+    class Pause paused
+    class ClockOut,Idle idle
+```
+
+### Sequence Diagram
+
+```mermaid
+%%{
+  init: {
+    'theme': 'dark'
+  }
+}%%
+sequenceDiagram
+    participant E as 👔 Employer
+    participant P as ⚡ Pulse API
+    participant C as 💳 Circle
+    participant A as 🔗 Arc
+    
+    Note over E: Funds wallet with USDC
+    
+    E->>P: Start session for freelancer
+    P->>P: Verify employer auth
+    
+    rect rgb(6, 78, 59)
+        Note over P,A: Worker is pinging every 30s
+        loop Every 30 seconds
+            P->>P: Verify EIP-712 signature
+            P->>P: Check budget remaining
+            P->>C: Initiate transfer
+            C->>A: Submit transaction
+            A-->>C: Confirm on-chain
+            C-->>P: Transfer complete
+            P-->>E: 💰 $0.009 transferred
+        end
+    end rect
+    
+    E->>P: End session
+    P->>P: Final settlement
+    P-->>E: 📊 Session summary
 ```
 
 ---
@@ -239,22 +308,26 @@ pulse/
 
 ---
 
-## 👏 Acknowledgments
+## 📜 License
 
-<p align="center">
-  <a href="https://circle.com">
-    <img src="https://img.shields.io/badge/Circle-Nanopayments-purple?style=for-the-badge" />
-  </a>
-  <a href="https://arc.network">
-    <img src="https://img.shields.io/badge/Arc-Network-teal?style=for-the-badge" />
-  </a>
-  <a href="https://nextjs.org">
-    <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs" />
-  </a>
-</p>
+MIT License
 
----
+Copyright (c) 2026 Pulse
 
-<p align="center">
-  <b>Built for freelancers — because waiting 30 days for payment is broken.</b>
-</p>
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
