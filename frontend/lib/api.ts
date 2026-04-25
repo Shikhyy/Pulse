@@ -76,6 +76,10 @@ export const api = {
   updateWebhook: (id: string, active: boolean, token: string) =>
     request(`/api/webhooks/${id}`, { method: 'PATCH', body: JSON.stringify({ active }) }, token),
 
+  // Worker
+  getWorkerEarnings: (token: string) => request('/api/worker/earnings', {}, token),
+  getWorkerSessions: (token: string) => request('/api/worker/sessions', {}, token),
+
   // Ping — fires payment
   sendPing: (proof: Record<string, string>, signature: string, token: string) =>
     request('/api/ping', { method: 'POST', body: JSON.stringify({ proof, signature }) }, token),

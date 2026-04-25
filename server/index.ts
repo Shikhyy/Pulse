@@ -16,6 +16,7 @@ import onboardingRouter from './routes/onboarding'
 import webhooksRouter from './routes/webhooks'
 import invitesRouter from './routes/invites'
 import agentsRouter from './routes/agents'
+import workerRouter from './routes/worker'
 
 // Middleware
 import { notFoundHandler, errorHandler } from './middleware/errorHandler'
@@ -51,6 +52,7 @@ app.use('/api', authMiddleware as any, onboardingRouter)
 app.use('/api', authMiddleware as any, webhooksRouter)
 app.use('/api', authMiddleware as any, invitesRouter)
 app.use('/api', authMiddleware as any, agentsRouter)
+app.use('/api', authMiddleware as any, workerRouter)
 
 // Error handling
 app.use(notFoundHandler)
