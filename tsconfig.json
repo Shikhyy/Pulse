@@ -12,7 +12,6 @@
     "noImplicitReturns": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noStrictGenericChecks": true,
     "outDir": "./dist",
     "rootDir": "./",
     "resolveJsonModule": true,
