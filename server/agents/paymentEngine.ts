@@ -250,7 +250,7 @@ export class PaymentEngine extends EventEmitter {
 
   /**
    * Send via Circle Developer-Controlled Wallet transfer
-   * Note: Requires proper Circle API setup - currently falls back to stub for demo
+   * Now with registered entity secret!
    */
   private async sendWalletTransfer(params: NanopaymentParams): Promise<NanopaymentResult> {
     const idempotencyKey = `${params.sessionId}-${params.pingSeq}-${Date.now()}`
@@ -260,14 +260,21 @@ export class PaymentEngine extends EventEmitter {
         '@circle-fin/developer-controlled-wallets'
       )
       
-      // Parse API key to get secret
+      // Get API key and entity secret 
       const apiKey = process.env.CIRCLE_API_KEY || ''
-      const parts = apiKey.split(':')
-      const entitySecret = parts[parts.length - 1]
+      let entitySecret = process.env.CIRCLE_ENTITY_SECRET || ''
       
-      // Skip if no proper credentials
+      // If not in env, try to parse from API key format: TEST_API_KEY:ID:SECRET
       if (!entitySecret || entitySecret.length < 32) {
-        throw new Error('No entity secret configured')
+        const parts = apiKey.split(':')
+        entitySecret = parts[parts.length - 1] || ''
+      }
+      
+      console.log('[PaymentEngine] API Key:', apiKey.slice(0, 20), '...')
+      console.log('[PaymentEngine] Entity Secret:', entitySecret.slice(0, 10), '...')
+      
+      if (!entitySecret || entitySecret.length < 32) {
+        throw new Error('No entity secret - need to register in Circle Console')
       }
       
       const client = initiateDeveloperControlledWalletsClient({
