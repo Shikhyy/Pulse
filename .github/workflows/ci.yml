@@ -16,36 +16,22 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '20'
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
-      - name: Build frontend
+      - name: TypeScript check (Backend)
+        run: |
+          cd server
+          npx tsc --noEmit
+
+      - name: Build Frontend
         run: |
           cd frontend
-          npm ci
+          npm install
           npm run build
 
-      - name: TypeScript check (server)
-        run: npx tsc --noEmit --project tsconfig.json
-
-  lint:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run ESLint
-        run: npx eslint . --ext .ts,.tsx
-        continue-on-error: true
+      - name: Lint
+        run: npm run lint || true

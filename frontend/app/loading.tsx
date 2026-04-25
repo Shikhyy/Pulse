@@ -1,37 +1,29 @@
-'use client'
-
-import { Skeleton } from '../components/Skeleton'
-
 export default function Loading() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'var(--bg)',
-      padding: 24,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: 'var(--color-neutral)',
     }}>
-      <Skeleton width={200} height={32} style={{ marginBottom: 32 }} />
-      
-      <div className="metric-grid" style={{ marginBottom: 24 }}>
-        {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="card">
-            <Skeleton width={100} height={14} style={{ marginBottom: 8 }} />
-            <Skeleton width={60} height={28} />
-          </div>
-        ))}
+      <div style={{ textAlign: 'center' }}>
+        <div style={{
+          width: 48,
+          height: 48,
+          margin: '0 auto 16px',
+          border: '3px solid var(--color-border)',
+          borderTopColor: 'var(--color-primary)',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite',
+        }} />
+        <p style={{ fontSize: 13, color: 'var(--color-muted)' }}>Loading...</p>
       </div>
-
-      <div className="card">
-        <Skeleton width={200} height={18} style={{ marginBottom: 16 }} />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {[1, 2, 3, 4, 5].map((i) => (
-            <div key={i} style={{ display: 'flex', gap: 16 }}>
-              <Skeleton width="30%" height={32} />
-              <Skeleton width="20%" height={32} />
-              <Skeleton width="20%" height={32} />
-            </div>
-          ))}
-        </div>
-      </div>
+      <style>{`
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   )
 }
